@@ -14,8 +14,6 @@
   font-display: swap;
 }
 
-/* ⚠️ 참고: 같은 regular 파일로 800을 선언해도 실제로 굵게 안 나올 수 있음.
-   그래도 네 코드 흐름 유지 */
 @font-face {
   font-family: "Pretendard";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2")
