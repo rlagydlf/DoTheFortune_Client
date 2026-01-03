@@ -1,14 +1,77 @@
 @font-face {
   font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2")
+    format("woff2");
+  font-weight: 100;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2")
+    format("woff2");
+  font-weight: 200;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2")
+    format("woff2");
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2")
+    format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2")
     format("woff2");
   font-weight: 800;
   font-display: swap;
 }
-body{
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2")
+    format("woff2");
+  font-weight: 900;
+  font-display: swap;
+}
+body {
   font-family: "Paperozi";
   background: #fff7d6;
-
 }
 .page {
   min-height: 100vh;
@@ -86,7 +149,8 @@ body{
   padding: 34px 44px;
   display: flex;
   align-items: center;
-  gap: 18px;
+  max-width: 980px;
+  margin: 0 auto;
   box-sizing: border-box;
 }
 
@@ -138,13 +202,25 @@ body{
   color: #444;
 }
 
+.profileComponents {
+  margin-top: 100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .logoutBtn {
+  width: 200px;
+  height: 60px;
+  font-size: 20px;
+  font-family: "Paperozi";
+  font-weight: 500;
   margin-left: auto;
   border: none;
   background: #f6e8a8;
-  padding: 14px 22px;
+  padding: 14px 20px;
   border-radius: 14px;
-  font-weight: 700;
   cursor: pointer;
 }
 
@@ -178,7 +254,9 @@ body{
   pointer-events: none;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.07));
 }
-
+.recordsSectionDown {
+  margin-top: 60px; /* 원하는 만큼 조절 */
+}
 /* 겹쳐지는 추가 배경: 위로 살짝 당겨 겹치게 */
 .svgOverlap {
   margin-top: -280px;
@@ -187,23 +265,27 @@ body{
 .recordsContent {
   position: relative;
   z-index: 1;
+  margin-top: 180px;
 }
 
 .sectionTitle {
   text-align: center;
-  font-size: 34px;
-  font-weight: 900;
-  letter-spacing: -0.03em;
+  font-weight: 600;
+  /* letter-spacing: -0.03em; */
   margin: 0 0 22px;
+  color: #000;
+  font-size: 40px;
+  font-style: normal;
+  line-height: normal;
 }
 
 /* 탭 */
 .tabs {
-  width: 520px;
+  height: 65px;
+  width: 600px;
   max-width: 100%;
-  margin: 0 auto 28px;
+  margin: 35px auto 90px;
   background: #eeeeee;
-  padding: 6px;
   border-radius: 999px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -212,12 +294,14 @@ body{
 }
 
 .tab {
+  font-family: "Paperozi";
+  font-weight: 500;
+  font-size: 18px;
   border: none;
   background: transparent;
   padding: 10px 8px;
   border-radius: 999px;
   cursor: pointer;
-  font-weight: 700;
   color: #333;
 }
 
