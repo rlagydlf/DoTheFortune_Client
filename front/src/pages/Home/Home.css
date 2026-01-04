@@ -1,0 +1,90 @@
+/* ✅ Home 화면에만 적용되도록 스코프 고정 */
+.homePage {
+  width: 100%;
+}
+
+/* 상단 헤더 바(사진 느낌) */
+.homePage .top-container {
+  position: relative;
+  width: 100%;
+  height: 110px;               /* 필요하면 100~120 사이로 조절 */
+  padding: 18px 22px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: #f6eddc;         /* 연한 베이지톤 */
+  overflow: hidden;
+
+  border-bottom: 2px solid #222; /* 사진처럼 아래 라인 */
+}
+
+/* 곡선 흰 배경 SVG (맨 뒤로 깔기) */
+.homePage .top-container > svg:first-of-type {
+  position: absolute;
+  left: 50%;
+  top: -40px;                  /* 곡선 위치 */
+  transform: translateX(-50%);
+  width: 120%;
+  height: auto;
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 왼쪽 로고 */
+.homePage .home-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+
+  position: relative;
+  z-index: 1;
+}
+
+/* 타이틀 */
+.homePage .top-container h1 {
+  margin: 0;
+  position: relative;
+  z-index: 1;
+
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #1b1b1b;
+  line-height: 1;
+}
+
+/* 오른쪽 프로필 아이콘(svg) */
+.homePage .top-container > svg:last-of-type {
+  margin-left: auto;
+  position: relative;
+  z-index: 1;
+
+  width: 44px;
+  height: 44px;
+}
+
+/* 모바일 살짝 정리 */
+@media (max-width: 420px) {
+  .homePage .top-container {
+    height: 96px;
+    padding: 16px 16px;
+  }
+
+  .homePage .home-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .homePage .top-container h1 {
+    font-size: 24px;
+  }
+
+  .homePage .top-container > svg:last-of-type {
+    width: 40px;
+    height: 40px;
+  }
+}
