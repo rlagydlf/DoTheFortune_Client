@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import AuthLayout from "../../components/auth/AuthLayout";
 import AuthFrame from "../../components/auth/AuthFrame";
 import "./OtherPartyInformation.css";
+import Goback from "../../components/goback";
 
 export default function OtherPartyInformation() {
   // TODO: 실제 로그인 유저명으로 교체 input 기본값도 실제 로그인 유저명으로
@@ -47,6 +48,7 @@ export default function OtherPartyInformation() {
 
   return (
     <AuthLayout>
+      <Goback />
       <AuthFrame>
         <h1 className="infoTitle">상대방의 정보를 입력해주세요!</h1>
 
