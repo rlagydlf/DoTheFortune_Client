@@ -1,10 +1,29 @@
 import React, { useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthLayout from "../../components/auth/AuthLayout";
 import AuthFrame from "../../components/auth/AuthFrame";
 import "./OtherPartyInformation.css";
 import Goback from "../../components/goback";
+import Loading from "../../components/loading/Loading";
+import LoadingSuccess from "../../components/loading/LoadingSuccess";
 
 export default function OtherPartyInformation() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const myInfo = location?.state?.myInfo || null;
+
+  // 로딩 오버레이 (궁합 계산)
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+
+  const loadingTitle = "두 분의 궁합을 계산하고 있어요";
+  const loadingDesc = "사주 정보를 분석 중입니다";
+
+  const successTitle = "궁합 결과가 준비됐어요!";
+  const successDesc = "결과를 확인해 주세요";
+  const successActionText = "홈으로 →";
+
   // TODO: 실제 로그인 유저명으로 교체 input 기본값도 실제 로그인 유저명으로
 
   const [form, setForm] = useState({
@@ -37,13 +56,31 @@ export default function OtherPartyInformation() {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    // TODO: 저장 로직(Supabase/서버) 연결
-    console.log("SAVE:", form);
+    if (isLoading) return;
 
-    alert("정보가 저장되었습니다! (콘솔 확인)");
+    setIsSuccessOpen(false);
+    setIsLoading(true);
+
+    try {
+      // TODO: 궁합 계산 API 연결
+      // 현재는 연결 전이므로 콘솔로만 확인
+      console.log("MY_INFO:", myInfo);
+      console.log("OTHER_INFO:", form);
+
+      // 서버 연결 전까지는 로딩 UI 확인용으로 짧게 지연
+      await new Promise((r) => setTimeout(r, 1200));
+
+      // 계산 완료 후 Success 오버레이 표시 (임시)
+      setIsSuccessOpen(true);
+    } catch (err) {
+      console.error(err);
+      alert("궁합 계산 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -140,6 +177,16 @@ export default function OtherPartyInformation() {
           </button>
         </form>
       </AuthFrame>
+
+      {/* ✅ 상대방 정보까지 입력 완료 후 궁합 계산 로딩 */}
+      <Loading open={isLoading} title={loadingTitle} desc={loadingDesc} />
+      <LoadingSuccess
+        open={isSuccessOpen}
+        title={successTitle}
+        desc={successDesc}
+        actionText={successActionText}
+        onAction={() => navigate("/home")}
+      />
     </AuthLayout>
   );
 }
