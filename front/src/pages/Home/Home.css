@@ -604,7 +604,7 @@
   padding-top: 18px;
 }
 
-/* 운세요약(첫 블록) 아래에만 선이 오도록 */
+/* 운세요약(첫 블록) */
 .homePage .homeDashboard__panel > .homeDashboard__block:first-child {
   position: relative;
   border-bottom: 0 !important; /* 기존 border-bottom이 있으면 제거 */
@@ -618,7 +618,6 @@
   right: 18px;
   bottom: 0;
   height: 1px;
-  background: rgba(0, 0, 0, 0.08);
   border-radius: 999px;
 }
 

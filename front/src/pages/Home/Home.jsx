@@ -387,8 +387,6 @@ function HomeDashboard({ onNavigate, nickname }) {
       <style>{`
         /* 선은 운세 요약(첫 블록) 아래로 */
         .homePage .homeDashboard__pairRow { border-top: 0 !important; padding-top: 18px; }
-        .homePage .homeDashboard__panel > .homeDashboard__block:first-child { position: relative; border-bottom: 0 !important; padding-bottom: 22px; }
-        .homePage .homeDashboard__panel > .homeDashboard__block:first-child::after { content: ""; position: absolute; left: 18px; right: 18px; bottom: 0; height: 1px; background: rgba(0,0,0,0.08); border-radius: 999px; }
 
         /* 행운의 컬러: 동그라미 → 이름 → 오행 → 헥사코드 */
         .homePage .homeDashboard__luckyRow { display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: flex-start; gap: 14px; }
