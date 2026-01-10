@@ -20,25 +20,25 @@ const FEATURE_META = [
   {
     id: "future-partner",
     title: "AI로 미래의 배우자 그려주기",
-    to: "/future-partner",
+    to: "/information?type=2",
     imageUrl: Card1,
   },
   {
     id: "similar-friend",
     title: "유사 사주 친구 찾기",
-    to: "/similar-friend",
+    to: "/information?type=1",
     imageUrl: Card2,
   },
   {
     id: "compat-score",
     title: "사주 궁합 점수 보기",
-    to: "/compat",
+    to: "/information?type=3",
     imageUrl: Card3,
   },
   {
     id: "today-luck",
     title: "오늘의 운세 보기",
-    to: "/today",
+    to: "/home",
     imageUrl: Card1,
   },
 ];
@@ -127,8 +127,10 @@ export default function Home() {
           />
         </svg>
 
-        <img src={Logo} alt="Home Logo" className="home-logo" />
-        <h1>빌려온 사주</h1>
+        <div onClick={() => navigate("/home")} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "12px" }}>
+          <img src={Logo} alt="Home Logo" className="home-logo" />
+          <h1>빌려온 사주</h1>
+        </div>
 
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -255,7 +257,15 @@ function HomeDashboard({ onNavigate, nickname }) {
                   type="button"
                   className="homeDashboard__card"
                   style={{ backgroundImage: `url(${item.imageUrl})` }}
-                  onClick={() => item.to && onNavigate(item.to)}
+                  onClick={() => {
+                    if (item.to) {
+                      if (item.to.startsWith("/")) {
+                        onNavigate(item.to);
+                      } else {
+                        window.location.href = item.to;
+                      }
+                    }
+                  }}
                 >
                   <div className="homeDashboard__cardOverlay" />
                   <div className="homeDashboard__cardText">
@@ -384,8 +394,6 @@ function HomeDashboard({ onNavigate, nickname }) {
       <style>{`
         /* 선은 운세 요약(첫 블록) 아래로 */
         .homePage .homeDashboard__pairRow { border-top: 0 !important; padding-top: 18px; }
-        .homePage .homeDashboard__panel > .homeDashboard__block:first-child { position: relative; border-bottom: 0 !important; padding-bottom: 22px; }
-        .homePage .homeDashboard__panel > .homeDashboard__block:first-child::after { content: ""; position: absolute; left: 18px; right: 18px; bottom: 0; height: 1px; background: rgba(0,0,0,0.08); border-radius: 999px; }
 
         /* 행운의 컬러: 동그라미 → 이름 → 오행 → 헥사코드 */
         .homePage .homeDashboard__luckyRow { display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: flex-start; gap: 14px; }

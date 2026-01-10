@@ -1,21 +1,32 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 /**
- * Loading Overlay
- * 사용법:
- * <Loading open={isLoading} title="미래 배우자를 누구일까요?" desc="AI가 분석 중입니다" />
+ * Loading Overlay (통합)
+ *
+ * 기본 사용:
+ * <Loading open={isLoading} title="로딩 중…" desc="잠시만 기다려 주세요." />
+ *
+ * 완료(성공) 화면처럼 버튼까지 같이 쓰고 싶으면:
+ * <Loading variant="success" open={isDone} title="완료!" desc="이미지 생성이 끝났어요" />
+ *
+ * 커스텀 버튼:
+ * <Loading actionText="다음으로" actionTo="/result" />
  */
 export default function Loading({
   open = true,
   title = "로딩 중…",
   desc = "잠시만 기다려 주세요.",
   minShowMs = 1200,
+  variant = "default", // 'default' | 'success'
   actionText,
   onAction,
+  actionTo,
 }) {
   const [render, setRender] = useState(open);
   const openedAtRef = useRef(0);
   const hideTimerRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (hideTimerRef.current) {
@@ -48,6 +59,25 @@ export default function Loading({
   }, [open, minShowMs, render]);
 
   if (!render) return null;
+
+  const isSuccess = variant === "success";
+  const resolvedActionText =
+    actionText ?? (isSuccess ? "미래 배우자 보러가기 →" : undefined);
+  const showActionBtn = Boolean(resolvedActionText);
+  const resolvedActionTo =
+    actionTo ?? (isSuccess ? "/home" : undefined);
+
+  const handleAction = () => {
+    if (typeof onAction === "function") return onAction();
+    if (typeof resolvedActionTo === "string" && resolvedActionTo.length > 0) {
+      navigate(resolvedActionTo);
+    }
+  };
+
+  const isDisabled =
+    showActionBtn &&
+    typeof onAction !== "function" &&
+    !(typeof resolvedActionTo === "string" && resolvedActionTo.length > 0);
 
   return (
     <div className="dtf-loading__backdrop" role="status" aria-live="polite">
@@ -122,19 +152,42 @@ export default function Loading({
         <p className="dtf-loading__title">{title}</p>
         <p className="dtf-loading__desc">{desc}</p>
 
-        {actionText ? (
+        {showActionBtn ? (
           <button
             type="button"
             className="dtf-loading__btn"
-            onClick={onAction}
-            disabled={!onAction}
+            onClick={handleAction}
+            disabled={isDisabled}
           >
-            {actionText}
+            {resolvedActionText}
           </button>
         ) : null}
       </div>
 
       <style>{`
+        /* 폰트는 프로젝트 전역에서 이미 로드되어 있으면 이 블록은 무시해도 됩니다. */
+        @font-face {
+          font-family: "Paperozi";
+          src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2")
+            format("woff2");
+          font-weight: 400;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: "Paperozi";
+          src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2")
+            format("woff2");
+          font-weight: 500;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: "Pretendard";
+          src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2")
+            format("woff2");
+          font-weight: 400;
+          font-display: swap;
+        }
+
         .dtf-loading__backdrop {
           position: fixed;
           inset: 0;
@@ -177,6 +230,7 @@ export default function Loading({
         }
 
         .dtf-loading__title {
+          font-family: "Pretendard", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
           margin: 0;
           font-size: 14px;
           font-weight: 700;
@@ -185,6 +239,7 @@ export default function Loading({
         }
 
         .dtf-loading__desc {
+          font-family: "Pretendard", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
           margin: 6px 0 0;
           font-size: 12px;
           font-weight: 500;
@@ -193,6 +248,7 @@ export default function Loading({
         }
 
         .dtf-loading__btn {
+          font-family: "Paperozi", "Pretendard", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
           margin-top: 12px;
           width: 100%;
           height: 40px;
@@ -200,8 +256,9 @@ export default function Loading({
           border: 1px solid rgba(255, 255, 255, 0.28);
           color: rgba(255, 255, 255, 0.92);
           font-size: 13px;
-          font-weight: 700;
+          font-weight: 500;
           cursor: pointer;
+          background: rgba(255, 255, 255, 0.14);
         }
 
         .dtf-loading__btn:disabled {

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
+import Header from "../components/Header";
 
 import cloud from "../assets/cloud.png";
 import darkCloud from "../assets/darkCloud.png";
@@ -24,15 +26,6 @@ const GlobalStyle = createGlobalStyle`
     #root {
     min-height: 100vh; 
   }
-`;
-const Logo = styled.div`
-  font-size: 50px;
-  line-height: 1;
-`;
-const LogoTitle = styled.div`
-  font-size: 30px;
-  font-weight: bold;
-  
 `;
 const Page = styled.div`
   display: flex;
@@ -208,14 +201,16 @@ const MatchText = styled.span`
   font-weight: 500;
   
 `;
-const TopHeader = styled.div`
+const HeaderWrapper = styled.div`
   position: absolute;
   top: 30px;
   left: 40px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
   z-index: 10;
+  
+  .topBar,
+  .header__topBar {
+    margin-bottom: 0;
+  }
 `;
 const Highlight = styled.span`
   font-weight: 800;
@@ -223,6 +218,7 @@ const Highlight = styled.span`
 `;
 /* ===== Component ===== */
 export default function FriendResult() {
+  const navigate = useNavigate();
   const [result, setResult] = useState(null);
 
   useEffect(() => {
@@ -248,10 +244,13 @@ export default function FriendResult() {
   return (
     <>
       <GlobalStyle />
-      <TopHeader>
-        <Logo><img src={logo} alt="logo"/></Logo>
-        <LogoTitle>빌려온 사주</LogoTitle>
-      </TopHeader>
+      <HeaderWrapper>
+        <Header
+          logoSrc={logo}
+          title="빌려온 사주"
+          onLogoClick={() => navigate("/home")}
+        />
+      </HeaderWrapper>
       <Page>
         <CardWrap>
           <Big3 />

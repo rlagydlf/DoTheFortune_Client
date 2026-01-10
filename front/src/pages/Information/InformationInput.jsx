@@ -6,6 +6,7 @@ import "./InformationInput.css";
 import Goback from "../../components/goback";
 import Loading from "../../components/loading/Loading";
 import LoadingSuccess from "../../components/loading/LoadingSuccess";
+import { saveUserInfo, findSimilarFriends, getSimilarUserMatches } from "../../utils/api";
 
 export default function InformationInput() {
   const navigate = useNavigate();
@@ -79,11 +80,20 @@ export default function InformationInput() {
       ? "다음으로 →"
       : "홈으로 →";
 
+  const successActionTo =
+    bannerType === 1
+      ? "/similar-friend"
+      : bannerType === 2
+      ? "/future-partner"
+      : bannerType === 3
+      ? undefined // 다음 단계로 이동은 onSubmit에서 처리
+      : "/home";
+
   // TODO: 실제 로그인 유저명으로 교체 input 기본값도 실제 로그인 유저명으로
-  const name = "희진";
+  const name = localStorage.getItem("name") ;
 
   const [form, setForm] = useState({
-    userName: "",
+    userName: name,
     gender: "male", // male | female
     calendar: "solar", // solar | lunar
     birthDate: "1991-01-20",
@@ -134,18 +144,44 @@ export default function InformationInput() {
 
     setIsLoading(true);
     try {
-      // TODO: 저장 로직(Supabase/서버) 연결
-      console.log("SAVE:", form);
+      // 생년월일 파싱 (YYYY-MM-DD 형식)
+      const [birthYear, birthMonth, birthDay] = form.birthDate.split("-").map(Number);
+      const [birthHour, birthMinute] = form.birthTime.split(":").map(Number);
 
-      // 서버 연결 전까지는 로딩 UI 확인용으로 짧게 지연
-      // 실제 연결 시에는 아래 timeout 삭제하고 API await만 두면 됨
-      await new Promise((r) => setTimeout(r, 800));
+      // 백엔드 API 형식에 맞게 데이터 변환
+      const fortuneInfo = {
+        birth_year: birthYear,
+        birth_month: birthMonth,
+        birth_day: birthDay,
+        birth_hour: birthHour,
+        birth_minute: birthMinute,
+        unknown_time: false,
+        birth_place: form.birthCity || "",
+      };
 
-      // bannerType 1/2/기타: 로딩 종료 후 성공 오버레이 표시
-      setIsSuccessOpen(true);
+      // 사주 정보 저장
+      const result = await saveUserInfo(fortuneInfo);
+      console.log("API Response:", result);
+
+      // bannerType에 따라 추가 작업 및 결과 페이지로 이동
+      if (bannerType === 1) {
+        // 유사 사주 친구 찾기 (이미 저장된 정보 기반)
+        const similarResult = await getSimilarUserMatches();
+        console.log("Similar friends:", similarResult);
+        // 로딩 종료 후 성공 오버레이 표시 (결과 페이지로 이동할 준비)
+        setIsSuccessOpen(true);
+      } else if (bannerType === 2) {
+        // 미래 배우자 이미지 생성
+        // TODO: generateFutureSpouse API 호출 (필요시)
+        // 로딩 종료 후 성공 오버레이 표시 (결과 페이지로 이동할 준비)
+        setIsSuccessOpen(true);
+      } else {
+        // 기타 경우 (타입이 없거나 0인 경우)
+        setIsSuccessOpen(true);
+      }
     } catch (err) {
       console.error(err);
-      alert("저장 중 오류가 발생했습니다. 다시 시도해 주세요.");
+      alert(err.message || "저장 중 오류가 발생했습니다. 다시 시도해 주세요.");
     } finally {
       setIsLoading(false);
     }
@@ -257,6 +293,7 @@ export default function InformationInput() {
         title={successTitle}
         desc={successDesc}
         actionText={successActionText}
+        actionTo={successActionTo}
       />
     </AuthLayout>
   );

@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import styles from "./MyPage.module.css";
 
@@ -13,6 +14,7 @@ const TABS = [
 ];
 
 export default function MyPage() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("all");
 
   // ✅ 탭 알약(인디케이터) 위치/폭 측정용 refs
@@ -70,7 +72,11 @@ export default function MyPage() {
     <div className={styles.page}>
       {/* 상단 바 */}
       <header className={styles.topBar}>
-        <div className={styles.brand}>
+        <div 
+          className={styles.brand} 
+          onClick={() => navigate("/home")}
+          style={{ cursor: "pointer" }}
+        >
           <img className={styles.logo} src={Logo} alt="logo" />
           <div className={styles.brandTitle}>빌려온 사주</div>
         </div>

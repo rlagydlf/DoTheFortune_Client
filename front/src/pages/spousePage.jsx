@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import logo from '../assets/logo.svg';
 
@@ -184,6 +185,7 @@ const LoadingMessage = styled.div`
 `;
 
 export default function SpousePage() {
+  const navigate = useNavigate();
   const [saved, setSaved] = useState(false);
   
   const [spouseData, setSpouseData] = useState(null);
@@ -255,8 +257,10 @@ export default function SpousePage() {
       <GlobalStyle />
       <Container>
         <TopHeader>
-          <Logo><img src={logo} alt="logo"/></Logo>
-          <Title>빌려온 사주</Title>
+          <Logo onClick={() => navigate("/home")} style={{ cursor: "pointer" }}>
+            <img src={logo} alt="logo"/>
+          </Logo>
+          <Title onClick={() => navigate("/home")} style={{ cursor: "pointer" }}>빌려온 사주</Title>
         </TopHeader>
 
         <ContentCard>

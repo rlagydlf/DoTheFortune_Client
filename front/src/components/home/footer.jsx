@@ -1,11 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import footerLogo from "../../assets/footerlogo.svg";
 import Github from "../../assets/Github.png";
 
 export default function Footer() {
+  const navigate = useNavigate();
+  
   function goGitHub() {
     window.location.href = "https://github.com/MIRIM-22";
   }
@@ -31,7 +34,11 @@ export default function Footer() {
       {/* Content overlay */}
       <div css={content}>
         <div css={left}>
-          <div css={brandRow}>
+          <div 
+            css={brandRow} 
+            onClick={() => navigate("/home")}
+            style={{ cursor: "pointer" }}
+          >
             <img css={logo} src={footerLogo} alt="빌려온 사주 로고" />
             <h1 css={title}>빌려온 사주</h1>
           </div>
