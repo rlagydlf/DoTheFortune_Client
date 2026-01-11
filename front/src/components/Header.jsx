@@ -1,5 +1,7 @@
 import React from "react";
-import "./Header.module.css"
+import { useNavigate } from "react-router-dom";
+import "./Header.module.css";
+
 export default function Header({
   logoSrc,
   title = "",
@@ -9,6 +11,7 @@ export default function Header({
   className = "",
   classes = {},
 }) {
+  const navigate = useNavigate();
   const {
     topBar = "",
     brand = "",
@@ -19,7 +22,7 @@ export default function Header({
 
   const handleLogoClick = () => {
     if (typeof onLogoClick === "function") return onLogoClick();
-    window.location.href = "/home";
+    navigate("/home");
   };
 
   return (
@@ -32,14 +35,14 @@ export default function Header({
         className={["brand", "header__brand", brand]
           .filter(Boolean)
           .join(" ")}
+        onClick={handleLogoClick}
+        style={{ cursor: "pointer" }}
       >
         {logoSrc ? (
           <img
             className={["logo", "header__logo", logo].filter(Boolean).join(" ")}
             src={logoSrc}
             alt="logo"
-            onClick={handleLogoClick}
-            style={{ cursor: "pointer" }}
           />
         ) : null}
 
